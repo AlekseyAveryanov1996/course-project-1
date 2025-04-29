@@ -1,5 +1,11 @@
-<script setup></script>
+<script setup>
+  let a = 10;
+</script>
 
-<template></template>
+<template>
+  <header>
+    logo
+  </header>
+</template>
 
 <style scoped></style>
