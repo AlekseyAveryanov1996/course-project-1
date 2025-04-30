@@ -1,11 +1,10 @@
-<script setup>
-  let a = 10;
-</script>
-
 <template>
-  <header>
-    logo
-  </header>
+  <div>
+    {{ date }}
+  </div>
 </template>
 
-<style scoped></style>
+<script setup>
+  import { ref } from 'vue';
+  const date = ref(new Date().toLocaleString());
+</script>
