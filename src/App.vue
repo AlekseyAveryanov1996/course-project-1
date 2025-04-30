@@ -1,12 +1,10 @@
 <script setup>
-  const date = new Date();
-  console.log(date);
-</script>
+import { ref } from 'vue';
 
+  const date = ref(new Date().toLocaleString())
+</script>
 <template>
-  <header>
-    {{ date }}
-  </header>
+  {{ date }}
 </template>
 
 <style scoped></style>
