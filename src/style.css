@@ -1,6 +1,35 @@
 :root {
+  --colorWhite: #fff;
+  --colorBlack: #222831;
+  --colorBlack2: #272E37;
+  --colorBlack3: #000000;
+  --colorBg: #343D4B;
+  --colorTextInput: #3F4958;
+  --gradient1: linear-gradient(152.19deg, rgba(136, 235, 239, 0.9) -0.04%, rgba(83, 91, 230, 0.9) 100%);
+  --gradient2: linear-gradient(256.33deg, rgba(144, 217, 224, 0.9) 9.04%, rgba(84, 96, 230, 0.9) 92.2%);
+  --colorHover1: #3A434F;
+  --shadow: 1px 2px 4px 0px #222831;
+  --font: "Montserrat", sans-serif;
+
+}
+
+* {
+  margin: 0 0;
+  padding: 0 0;
+  box-sizing: border-box;
+}
+
+body {
+  color: var(--colorWhite);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  max-width: 1920px;
+  width: 100%;
+  font-family: var(--font);
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  background-color: var(--colorBg);
 }
