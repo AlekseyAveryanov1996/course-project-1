@@ -1,9 +1,10 @@
-<script setup>
-
-</script>
-
 <template>
-  
+  <div>
+    {{ date }}
+  </div>
 </template>
 
-<style scoped></style>
+<script setup>
+  import { ref } from 'vue';
+  const date = ref(new Date().toLocaleString());
+</script>
