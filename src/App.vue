@@ -1,10 +1,11 @@
 <script setup>
-  let a = 10;
+  const date = new Date();
+  console.log(date);
 </script>
 
 <template>
   <header>
-    logo
+    {{ date }}
   </header>
 </template>
 
