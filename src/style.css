@@ -32,4 +32,13 @@ body {
   font-weight: 400;
   font-style: normal;
   background-color: var(--colorBg);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100dvh;
 }
