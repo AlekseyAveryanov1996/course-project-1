@@ -23,6 +23,7 @@
     font-size: 28px;
     line-height: 100%;
     font-weight: 700;
+    text-transform: uppercase;
   }
   .stat__value {
     font-size: 28px;

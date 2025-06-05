@@ -1,7 +1,12 @@
-<script setup></script>
+<script setup>
+  import { useSlots } from 'vue';
+
+  const slots = useSlots();
+  const hasIconSlot = !!slots.icon;
+</script>
 
 <template>
-  <button class="button">
+  <button :class='hasIconSlot ? "button button_icon" : "button"'>
     <div>
       <slot name='icon' />
     </div>
@@ -25,6 +30,12 @@
     outline: none;
     border: none;
     cursor: pointer;
+    flex-grow: 1;
+  }
+
+  .button_icon {
+    padding-top: 7px;
+    padding-bottom: 8px;
   }
 
   .button:hover {
