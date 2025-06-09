@@ -8,6 +8,10 @@
     stat: '90%',
   }
 
+  function getSity(data) {
+    console.log(data);
+  }
+
 </script>
 
 <template>
@@ -17,7 +21,7 @@
       <Stat label='Осадки' stat='0%'></Stat>
       <Stat label='Ветер' stat='3 м/ч'></Stat>
     </div>
-    <CitySelect></CitySelect>
+    <CitySelect @select-City='getSity'></CitySelect>
   </div>
 </template>
 

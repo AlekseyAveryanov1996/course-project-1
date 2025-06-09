@@ -2,11 +2,23 @@
   import Button from "./Button.vue";
   import Iconlocations from '../Icons/Iconlocations.vue';
   import Input from "./Input.vue";
+
+  const emit = defineEmits({
+    selectCity: function(payload) {
+      return Boolean(payload);
+    },
+  })
+
+  function select() {
+    emit('selectCity', {
+      city: 'London',
+    });
+  }
 </script>
 
 <template>
   <div class="citySelect">
-    <Button>
+    <Button @click="select()">
       <template #icon>
         <Iconlocations />
       </template>
