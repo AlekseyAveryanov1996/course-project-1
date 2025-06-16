@@ -2,10 +2,16 @@
   const { placeholder = 'Значение Поля' } = defineProps({
     placeholder: String,
   })
+  const data = defineModel({
+    type: String,
+    required: true,
+    default: 'Введите город',
+  });
+
 </script>
 
 <template>
-  <input type="text" class="Input" :placeholder='placeholder'>
+  <input v-model='data' type="text" class="Input" :placeholder='placeholder'>
 </template>
 
 <style scoped>

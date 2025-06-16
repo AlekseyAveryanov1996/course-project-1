@@ -7,6 +7,8 @@
 
   const dataDefault = ref({
     humidity: 90,
+    rain: 0,
+    wind: 3,
   })
 
 
@@ -15,12 +17,20 @@
     dataDefault.value.humidity = 20;
   }
 
-  const dataModified = computed((prev) => {
-    console.log(prev);
-    return {
+  const dataModified = computed(() => {
+    return [{
       label: 'Влажность',
       stat: dataDefault.value.humidity + "%",
-    }
+    },
+    {
+      label: 'Осадки',
+      stat: dataDefault.value.rain + "%",
+    },
+    {
+      label: 'Ветер',
+      stat: dataDefault.value.wind + " м/ч",
+    },
+  ]
   })
 
 </script>
@@ -29,9 +39,7 @@
   <div class="info-panel">
     <div id="city">{{ savedCity }}</div>
     <div class="stat-wrapper">
-      <Stat v-bind='dataModified'></Stat>
-      <Stat label='Осадки' stat='0%'></Stat>
-      <Stat label='Ветер' stat='3 м/ч'></Stat>
+      <Stat v-for='(item, key) in dataModified' v-bind="item" :key='key' ></Stat>
     </div>
     <CitySelect @select-City='getSity'></CitySelect>
   </div>

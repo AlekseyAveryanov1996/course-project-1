@@ -11,27 +11,30 @@
   })
 
   const isEdited = ref(false);
+  const city = ref('Moscow')
 
   function select() {
-    emit('selectCity', 'London');
+    emit('selectCity', city.value);
   }
 
   function changeCity() {
     isEdited.value = !isEdited.value
   }
 
+
+
 </script>
 
 <template>
   <div class="citySelect">
-    <Button @click="changeCity()" v-if="!isEdited">
+    <Button v-if="!isEdited" @click="changeCity()" >
       <template #icon>
         <Iconlocations />
       </template>
       Изменить город
     </Button>
-    <div class="citySelect__input-wrapper" v-else>
-      <Input placeholder='Введите город'/>
+    <div v-else class="citySelect__input-wrapper">
+      <Input v-model='city' placeholder='Введите город' />
       <Button @click='() => {select(); changeCity()}'>Сохранить</Button>
     </div>
   </div>
