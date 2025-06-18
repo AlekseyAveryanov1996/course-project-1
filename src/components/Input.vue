@@ -1,4 +1,6 @@
 <script setup>
+import {  } from 'vue';
+
   const { placeholder = 'Значение Поля' } = defineProps({
     placeholder: String,
   })

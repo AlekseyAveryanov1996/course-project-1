@@ -2,7 +2,9 @@
   import Button from "./Button.vue";
   import Iconlocations from '../Icons/Iconlocations.vue';
   import Input from "./Input.vue";
-  import { ref } from "vue";
+  import { onMounted, ref } from "vue";
+
+
 
   const emit = defineEmits({
     selectCity: function(payload) {
@@ -21,6 +23,10 @@
     isEdited.value = !isEdited.value
   }
 
+  onMounted(() => {
+    select();
+  })
+
 
 
 </script>
@@ -34,7 +40,7 @@
       Изменить город
     </Button>
     <div v-else class="citySelect__input-wrapper">
-      <Input v-model='city' placeholder='Введите город' />
+      <Input v-model='city' placeholder='Введите город' @keyup.enter='() => {select(); changeCity()}'/>
       <Button @click='() => {select(); changeCity()}'>Сохранить</Button>
     </div>
   </div>

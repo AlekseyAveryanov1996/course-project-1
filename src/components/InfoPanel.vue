@@ -3,41 +3,47 @@
   import CitySelect from './CitySelect.vue';
   import { computed, ref } from 'vue';
 
-  let savedCity = ref('Москва');
+  const API_ENDPOINT = "http://api.weatherapi.com/v1"
 
-  const dataDefault = ref({
-    humidity: 90,
-    rain: 0,
-    wind: 3,
-  })
+  const dataDefault = ref()
 
 
-  function getSity(data) {
-    savedCity.value = data;
-    dataDefault.value.humidity = 20;
+  async function getSity(city) {
+    const params = new URLSearchParams({
+      q: city,
+      lang: "ru",
+      key: '2987b812bbb8497fbd2131729251806',
+      days: 3,
+    })
+    const res = await fetch(`${API_ENDPOINT}/forecast.json?${params.toString()}`)
+    dataDefault.value = await res.json();
+    console.log(dataDefault.value)
   }
 
   const dataModified = computed(() => {
-    return [{
-      label: 'Влажность',
-      stat: dataDefault.value.humidity + "%",
-    },
-    {
-      label: 'Осадки',
-      stat: dataDefault.value.rain + "%",
-    },
-    {
-      label: 'Ветер',
-      stat: dataDefault.value.wind + " м/ч",
-    },
-  ]
+    if (!dataDefault.value) {
+      return [];
+    } else {
+      return [{
+        label: 'Влажность',
+        stat: dataDefault.value.current.humidity + "%",
+      },
+      {
+        label: 'Облачность',
+        stat: dataDefault.value.current.cloud + "%",
+      },
+      {
+        label: 'Ветер',
+        stat: dataDefault.value.current.wind_kph + " км/ч",
+      },
+      ]
+    }
   })
 
 </script>
 
 <template>
   <div class="info-panel">
-    <div id="city">{{ savedCity }}</div>
     <div class="stat-wrapper">
       <Stat v-for='(item, key) in dataModified' v-bind="item" :key='key' ></Stat>
     </div>
