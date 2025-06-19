@@ -13,7 +13,7 @@
   })
 
   const isEdited = ref(false);
-  const city = ref('Moscow')
+  const city = ref('Тула')
 
   function select() {
     emit('selectCity', city.value);

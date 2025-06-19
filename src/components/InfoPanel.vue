@@ -1,11 +1,27 @@
 <script setup>
+  /*eslint no-undef: "error"*/
+
   import Stat from './Stat.vue';
   import CitySelect from './CitySelect.vue';
+  import NotFoundCity from './NotFoundCity.vue';
   import { computed, ref } from 'vue';
+  import CardStat from './CardStat.vue';
+
+
+
+
 
   const API_ENDPOINT = "http://api.weatherapi.com/v1"
+  const errorMap = new Map([[1006, 'Указанный город не найден']])
 
-  const dataDefault = ref()
+  const dataDefault = ref();
+  const isError = ref();
+
+
+  const erorDisplay = computed(() => {
+    return errorMap.get(isError.value?.error?.code)
+  })
+
 
 
   async function getSity(city) {
@@ -13,12 +29,22 @@
       q: city,
       lang: "ru",
       key: '2987b812bbb8497fbd2131729251806',
-      days: 3,
+      days: 4,
     })
     const res = await fetch(`${API_ENDPOINT}/forecast.json?${params.toString()}`)
+
+    if (res.status !== 200) {
+      isError.value = await res.json();
+      dataDefault.value = null;
+      return
+    } else {
+      isError.value = undefined;
+    }
+
     dataDefault.value = await res.json();
-    console.log(dataDefault.value)
+
   }
+
 
   const dataModified = computed(() => {
     if (!dataDefault.value) {
@@ -40,14 +66,58 @@
     }
   })
 
+  const dataWeather = computed(() => {
+    if (!dataDefault.value) {
+      return []
+    } else {
+      return dataDefault.value.forecast.forecastday
+    }
+  })
+
+  const isToday = (dateStr) => {
+    const today = new Date();
+    const date = new Date(dateStr);
+
+    console.log(today);
+
+    return (
+      date.getDate() === today.getDate() &&
+      date.getMonth() === today.getMonth() &&
+      date.getFullYear() === today.getFullYear()
+    );
+  };
+
+  isToday();
+
+
 </script>
 
 <template>
   <div class="info-panel">
-    <div class="stat-wrapper">
-      <Stat v-for='(item, key) in dataModified' v-bind="item" :key='key' ></Stat>
+
+    <NotFoundCity v-if="isError" :label-error='erorDisplay'></NotFoundCity>
+
+    <div v-else class="info-panel__main">
+       <div  class="stat-wrapper">
+        <Stat v-for='(item, key) in dataModified' v-bind="item" :key='key' ></Stat>
+      </div>
+
+      <div class="stat-weather">
+
+        <CardStat v-for="(item, index) in dataWeather"
+        :key='index'
+        :day-of-week='new Date(item.date)'
+        :temp='item.day.avgtemp_c'
+        :number-code-weather='item.day.condition.code'
+        :is-active='isToday(item.date)'/>
+
+
+
+      </div>
+
     </div>
-    <CitySelect @select-City='getSity'></CitySelect>
+
+    <CitySelect @select-city='getSity'></CitySelect>
   </div>
 </template>
 
@@ -63,4 +133,11 @@
     flex-direction: column;
     gap: 16px;
   }
+
+  .stat-weather {
+    display: flex;
+    margin-top: 80px;
+    gap: 1px;
+  }
+
 </style>
