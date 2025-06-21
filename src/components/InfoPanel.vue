@@ -6,61 +6,41 @@ import Stat from './Stat.vue';
 import CitySelect from './CitySelect.vue';
 import NotFoundCity from './NotFoundCity.vue';
 import {
-  computed, ref
+  computed, inject,
 } from 'vue';
 import CardStat from './CardStat.vue';
 
-
-const API_ENDPOINT = "http://api.weatherapi.com/v1"
-const errorMap = new Map([[1006, 'Указанный город не найден']])
-
-const dataDefault = ref();
-const isError = ref();
-const activeIndex = ref(0);
-
-
-const erorDisplay = computed(() => {
-  return errorMap.get(isError.value?.error?.code)
+const {dataDefault} = defineProps({
+  dataDefault: Object,
 })
 
-async function getSity(city) {
-  const params = new URLSearchParams({
-    q: city, lang: "ru", key: '2987b812bbb8497fbd2131729251806', days: 4,
-  })
-  const res = await fetch(`${API_ENDPOINT}/forecast.json?${params.toString()}`)
+const activeIndexProvide = inject('activeIndex');
+const isErrorProvide = inject('isError');
+const errorMap = new Map([[1006, 'Указанный город не найден']])
 
-  if (res.status !== 200) {
-    isError.value = await res.json();
-    dataDefault.value = null;
-    return
-  } else {
-    isError.value = undefined;
-  }
-
-  dataDefault.value = await res.json();
-
-}
-
+const errorDisplay = computed(() => {
+  return errorMap.get(isErrorProvide.value.error?.code)
+})
 
 const dataModified = computed(() => {
-  if (!dataDefault.value) {
+  if (!dataDefault) {
     return [];
   } else {
     return [{
-      label: 'Влажность', stat: dataDefault.value.current.humidity + "%",
+      label: 'Влажность', stat: dataDefault.current.humidity + "%",
     }, {
-      label: 'Облачность', stat: dataDefault.value.current.cloud + "%",
+      label: 'Облачность', stat: dataDefault.current.cloud + "%",
     }, {
-      label: 'Ветер', stat: dataDefault.value.current.wind_kph + " км/ч",
+      label: 'Ветер', stat: dataDefault.current.wind_kph + " км/ч",
     },]
   }
 })
 
 const dataWeather = computed(() => {
-  if (!dataDefault.value) {
+  if (!dataDefault) {
     return []
   } else {
-    return dataDefault.value.forecast.forecastday
+    return dataDefault.forecast.forecastday
   }
 })
 
@@ -72,8 +52,8 @@ const dataWeather = computed(() => {
       class="info-panel">
 
     <NotFoundCity
-        v-if="isError"
-        :label-error='erorDisplay'></NotFoundCity>
+        v-if="isErrorProvide"
+        :label-error='errorDisplay'></NotFoundCity>
 
     <div
         v-else
@@ -93,16 +73,15 @@ const dataWeather = computed(() => {
             v-for="(item, index) in dataWeather"
             :key='index'
             :day-of-week='new Date(item.date)'
-            :temp='item.day.avgtemp_c'
+            :temp='item.day.maxtemp_c'
             :number-code-weather='item.day.condition.code'
-            :is-active='activeIndex === index'
-            @click="() => activeIndex = index"/>
+            :is-active='activeIndexProvide === index'
+            @click="() => activeIndexProvide = index"/>
       </div>
 
     </div>
 
-    <CitySelect
-        @select-city='getSity'></CitySelect>
+    <CitySelect></CitySelect>
   </div>
 </template>
 

@@ -7,7 +7,7 @@ import RainIcon from '../Icons/weather/RainIcon.vue';
   const {numberCodeWeather, dayOfWeek, temp, isActive = false} = defineProps({
     numberCodeWeather: Number,
     dayOfWeek: Date,
-    temp: String,
+    temp: Number,
     isActive: Boolean,
   })
 
