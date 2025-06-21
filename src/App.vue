@@ -1,6 +1,7 @@
 <script setup>
   import LeftPanel from './components/LeftPanel.vue';
   import InfoPanel from './components/InfoPanel.vue';
+  import Button from "./components/Button.vue";
 </script>
 
 <template>

@@ -20,9 +20,9 @@ import RainIcon from '../Icons/weather/RainIcon.vue';
 <template>
   <div :class='isActive ? "card-stat --active" : "card-stat"'>
     <div class="card-stat__icon">
-      <SunIcon v-if='numberCodeWeather === 1000' v-bind="activeIconProps" />
-      <CloudSunIcon v-if='numberCodeWeather === 1003' v-bind="activeIconProps" />
-      <RainIcon v-if='numberCodeWeather === 1009' v-bind="activeIconProps" />
+      <SunIcon v-if='numberCodeWeather <=  1003' v-bind="activeIconProps" />
+      <CloudSunIcon v-if='numberCodeWeather >= 1006 && numberCodeWeather < 1063' v-bind="activeIconProps" />
+      <RainIcon v-if='numberCodeWeather >= 1063' v-bind="activeIconProps" />
 
     </div>
     <div class="card-stat__day">
@@ -36,7 +36,7 @@ import RainIcon from '../Icons/weather/RainIcon.vue';
 
 <style scoped>
   .card-stat {
-    padding: 14px 22px 20px 22px;
+    padding: 14px 21px 20px 21px;
     background: var(--colorBlack2);
     color: var(--colorWhite);
     display: flex;
