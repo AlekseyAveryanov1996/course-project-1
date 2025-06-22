@@ -23,16 +23,17 @@ const errorDisplay = computed(() => {
   return errorMap.get(isError.value.error?.code)
 })
 
+
 const dataModified = computed(() => {
   if (!dataDefault) {
     return [];
   } else {
     return [{
-      label: 'Влажность', stat: dataDefault.current.humidity + "%",
+      label: 'Влажность', stat: dataDefault.forecast.forecastday[activeIndex.value].day.avghumidity + "%",
     }, {
-      label: 'Облачность', stat: dataDefault.current.cloud + "%",
+      label: 'Облачность', stat: dataDefault.forecast.forecastday[activeIndex.value].day.daily_chance_of_rain + "%",
     }, {
-      label: 'Ветер', stat: dataDefault.current.wind_kph + " км/ч",
+      label: 'Ветер', stat: dataDefault.forecast.forecastday[activeIndex.value].day.maxwind_kph + " км/ч",
     },]
   }
 })
@@ -41,7 +42,7 @@ const dataWeather = computed(() => {
   if (!dataDefault) {
     return []
   } else {
-    return dataDefault.forecast.forecastday
+    return dataDefault?.forecast?.forecastday
   }
 })
 

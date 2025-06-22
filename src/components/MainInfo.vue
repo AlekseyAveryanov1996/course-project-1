@@ -18,10 +18,7 @@ const dayOfWeek = computed(() => {
 
 const activeDay = computed(() => {
   if (changedDay.value) {
-    const day = new Date(changedDay.value).getDate();
-    const month = nameOfMotht[new Date(changedDay.value).getMonth() + 1].slice(0, -1) + 'я';
-    const year  = new Date(changedDay.value).getFullYear();
-    return day + ' ' + month + ' ' + year
+    return new Date(changedDay.value).toLocaleDateString('ru-RU', {month: 'long', day: 'numeric', year: 'numeric'});
   } else {
     return  '-'
   }
