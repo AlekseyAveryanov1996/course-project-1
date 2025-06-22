@@ -36,7 +36,7 @@ import RainIcon from '../Icons/weather/RainIcon.vue';
 
 <style scoped>
   .card-stat {
-    padding: 14px 21px 20px 21px;
+    padding: 14px 20px 20px 20px;
     background: var(--colorBlack2);
     color: var(--colorWhite);
     display: flex;

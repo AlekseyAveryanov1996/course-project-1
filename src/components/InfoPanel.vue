@@ -9,17 +9,18 @@ import {
   computed, inject,
 } from 'vue';
 import CardStat from './CardStat.vue';
+import {activeIndexProvide, isErrorProvide} from "../constans.js";
 
 const {dataDefault} = defineProps({
   dataDefault: Object,
 })
 
-const activeIndexProvide = inject('activeIndex');
-const isErrorProvide = inject('isError');
+const activeIndex = inject(activeIndexProvide);
+const isError = inject(isErrorProvide);
 const errorMap = new Map([[1006, 'Указанный город не найден']])
 
 const errorDisplay = computed(() => {
-  return errorMap.get(isErrorProvide.value.error?.code)
+  return errorMap.get(isError.value.error?.code)
 })
 
 const dataModified = computed(() => {
@@ -52,7 +53,7 @@ const dataWeather = computed(() => {
       class="info-panel">
 
     <NotFoundCity
-        v-if="isErrorProvide"
+        v-if="isError"
         :label-error='errorDisplay'></NotFoundCity>
 
     <div
@@ -75,8 +76,8 @@ const dataWeather = computed(() => {
             :day-of-week='new Date(item.date)'
             :temp='item.day.maxtemp_c'
             :number-code-weather='item.day.condition.code'
-            :is-active='activeIndexProvide === index'
-            @click="() => activeIndexProvide = index"/>
+            :is-active='activeIndex === index'
+            @click="() => activeIndex = index"/>
       </div>
 
     </div>

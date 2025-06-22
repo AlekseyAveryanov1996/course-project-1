@@ -2,20 +2,19 @@
 import Button from "./Button.vue";
 import Iconlocations from '../Icons/Iconlocations.vue';
 import Input from "./Input.vue";
-import {inject, onMounted, ref} from "vue";
+import {inject, ref} from "vue";
+import {cityProvide} from "../constans.js";
 
-
-const getCityProvide = inject("getCity");
+const city = inject(cityProvide);
+const inputCity = ref(city.value)
 const isEdited = ref(false);
-const city = ref('Тула')
+
 
 function changeCity() {
   isEdited.value = !isEdited.value
+  city.value = inputCity.value;
 }
 
-onMounted(() => {
-  getCityProvide(city.value);
-})
 
 </script>
 
@@ -28,10 +27,10 @@ onMounted(() => {
       Изменить город
     </Button>
     <div v-else class="citySelect__input-wrapper">
-      <Input v-model='city' placeholder='Введите город'
-             @keyup.enter='() => {getCityProvide(city); changeCity()}'
+      <Input v-model='inputCity' placeholder='Введите город'
+             @keyup.enter='() => { changeCity()}'
              v-focus/>
-      <Button @click='() => {getCityProvide(city); changeCity()}'>Сохранить</Button>
+      <Button @click='() => {changeCity()}'>Сохранить</Button>
     </div>
   </div>
 </template>

@@ -1,13 +1,27 @@
 <script setup>
 import LeftPanel from './components/LeftPanel.vue';
 import InfoPanel from './components/InfoPanel.vue';
-import {provide, ref} from "vue";
+import {computed, onMounted, provide, ref, watch} from "vue";
+import {
+  activeDayProvide, activeIndexProvide, cityProvide, isErrorProvide, locationNameProvide
+} from "./constans.js";
 
 const API_ENDPOINT = "http://api.weatherapi.com/v1"
 
 const dataDefault = ref();
 const isError = ref();
 const activeIndex = ref(0);
+const city = ref('Тула')
+
+const locationName = computed(() => {
+  return dataDefault.value?.location?.name
+})
+
+const activeDayData = computed(() => {
+  return dataDefault.value?.forecast?.forecastday[activeIndex.value]
+})
+
+
 
 async function getSity(city) {
   const params = new URLSearchParams({
@@ -26,9 +40,22 @@ async function getSity(city) {
   dataDefault.value = await res.json();
 }
 
-provide('activeIndex', activeIndex);
-provide('isError', isError);
-provide('getCity', getSity)
+onMounted( () => {
+  getSity(city.value);
+})
+
+watch(city, () => {
+  getSity(city.value);
+})
+
+provide(activeIndexProvide, activeIndex);
+provide(isErrorProvide, isError);
+provide(cityProvide, city)
+provide(locationNameProvide, locationName)
+provide(activeDayProvide, activeDayData)
+
+
+
 
 
 </script>
